@@ -6,16 +6,26 @@
       "pypi_package": "charm-adapter-ag2",
       "description": "Run Autogen (AG2) multi-agent conversations inside Charm.",
       "author": "Charm Team",
-      "tags": ["ag2", "autogen", "multi-agent"],
-      "github_url": "https://github.com/CharmAIOS/charm-adapter-ag2"
+      "tags": [
+        "ag2",
+        "autogen",
+        "multi-agent"
+      ],
+      "github_url": "https://github.com/CharmAIOS/charm-adapter-ag2",
+      "name": "AG2 Multi-Agent"
     },
     {
       "id": "langchain",
       "pypi_package": "charm-adapter-langchain",
       "description": "First-class LangChain and LangGraph integration for Charm agents.",
       "author": "Charm Team",
-      "tags": ["langchain", "langgraph", "graphs"],
-      "github_url": "https://github.com/CharmAIOS/charm-adapter-langchain"
+      "tags": [
+        "langchain",
+        "langgraph",
+        "graphs"
+      ],
+      "github_url": "https://github.com/CharmAIOS/charm-adapter-langchain",
+      "name": "LangChain & LangGraph"
     }
   ]
 }

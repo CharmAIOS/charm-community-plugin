@@ -4,6 +4,27 @@ Welcome to the central registry for community-developed Charm plugins!
 
 This repository powers the discovery of plugins inside the Charm Store. By submitting your plugin here, it becomes visible to all developers using Charm.
 
+## Plugin Schema Guidelines
+
+When submitting a plugin to any of the categories below, your JSON entry must follow a standardized schema. This ensures the Charm Store can accurately display your plugin with rich UI features (like sorting, nice visuals, and detailed views).
+
+### Required Fields
+- `id`: `string` (Unique identifier, e.g., `"redis"`. Used to generate configuration or install commands)
+- `name`: `string` (Display name for the UI, e.g., `"Charm Redis Memory"`)
+- `description`: `string` (A short paragraph describing your plugin)
+- `author`: `string` (Author or organization name, e.g., `"Charm Team"`)
+- `tags`: `string[]` (Array of tags, e.g., `["database", "kv"]` for search filtering)
+- `github_url`: `string` (URL to the plugin's source code)
+
+### Recommended Fields (for advanced Store UI features)
+- `version`: `string` (Current version, e.g., `"1.0.0"`)
+- `icon_url`: `string` (URL to a logo image for your plugin)
+- `docs_url`: `string` (URL to official documentation)
+- `license`: `string` (e.g., `"MIT"`)
+- `created_at`: `string` (ISO date for "Newest" sorting, e.g., `"2024-03-01T00:00:00Z"`)
+- `downloads` / `usage_count`: `number` (Used for "Popular" sorting)
+- `pypi_package` / `npm_package`: `string` (Used for generating install commands)
+
 ## How to submit a Custom Runtime
 
 To make your custom Docker image discoverable to the Charm ecosystem:

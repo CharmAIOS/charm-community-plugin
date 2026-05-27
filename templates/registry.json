@@ -29,7 +29,8 @@
         "python",
         "code",
         "starter"
-      ]
+      ],
+      "name": "Custom Python Agent"
     },
     {
       "id": "openclaw",
@@ -59,7 +60,8 @@
         "openclaw",
         "mcp",
         "persistent"
-      ]
+      ],
+      "name": "OpenClaw MCP Agent"
     },
     {
       "id": "research-agent",
@@ -81,7 +83,8 @@
         "research",
         "web-search",
         "mcp"
-      ]
+      ],
+      "name": "Web Research Agent"
     },
     {
       "id": "code-review-agent",
@@ -110,7 +113,8 @@
       "tags": [
         "code-review",
         "dev-tools"
-      ]
+      ],
+      "name": "Code Review Agent"
     },
     {
       "id": "customer-support-agent",
@@ -132,7 +136,8 @@
         "support",
         "daemon",
         "mcp"
-      ]
+      ],
+      "name": "Customer Support Daemon"
     },
     {
       "id": "data-pipeline-agent",
@@ -162,7 +167,8 @@
         "data",
         "etl",
         "pipeline"
-      ]
+      ],
+      "name": "Data Pipeline Agent"
     },
     {
       "id": "slack-bot",
@@ -184,7 +190,8 @@
         "slack",
         "bot",
         "daemon"
-      ]
+      ],
+      "name": "Slack Workspace Bot"
     }
   ]
 }

@@ -5,8 +5,13 @@
       "npm_package": "charm-renderer-crypto",
       "description": "A beautiful TradingView-style crypto chart renderer.",
       "author": "Charm Community",
-      "tags": ["finance", "chart", "crypto"],
-      "github_url": "https://github.com/CharmAIOS/charm-community-plugin"
+      "tags": [
+        "finance",
+        "chart",
+        "crypto"
+      ],
+      "github_url": "https://github.com/CharmAIOS/charm-community-plugin",
+      "name": "Crypto Trading Chart"
     }
   ]
 }
