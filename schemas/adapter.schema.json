@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Charm Custom Adapter Registry",
+  "type": "object",
+  "required": ["version", "adapters"],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "pypi_package", "description", "author"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the adapter, matches the type in charm.yaml",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "pypi_package": {
+            "type": "string",
+            "description": "The pip-installable package name on PyPI"
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of the adapter framework"
+          },
+          "author": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "github_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    }
+  }
+}

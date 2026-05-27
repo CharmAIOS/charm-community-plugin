@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'runtimes/registry.json'
+      - 'templates/registry.json'
+      - 'adapters/registry.json'
 
 jobs:
   validate:
@@ -20,3 +22,12 @@ jobs:
         
       - name: Validate runtimes/registry.json
         run: ajv validate -s schemas/runtime.schema.json -d runtimes/registry.json
+        if: hashFiles('runtimes/registry.json') != ''
+        
+      - name: Validate templates/registry.json
+        run: ajv validate -s schemas/template.schema.json -d templates/registry.json
+        if: hashFiles('templates/registry.json') != ''
+        
+      - name: Validate adapters/registry.json
+        run: ajv validate -s schemas/adapter.schema.json -d adapters/registry.json
+        if: hashFiles('adapters/registry.json') != ''
