@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "exporters": [
+    {
+      "id": "datadog",
+      "pypi_package": "charm-telemetry-datadog",
+      "description": "Export agent lifecycle events and LLM token usage to Datadog.",
+      "author": "Charm Team",
+      "tags": ["datadog", "observability", "metrics"],
+      "github_url": "https://github.com/CharmAIOS/charm-telemetry-datadog"
+    },
+    {
+      "id": "langsmith",
+      "pypi_package": "charm-telemetry-langsmith",
+      "description": "Native LangSmith integration for deep trace debugging.",
+      "author": "Charm Team",
+      "tags": ["langsmith", "langchain", "tracing"],
+      "github_url": "https://github.com/CharmAIOS/charm-telemetry-langsmith"
+    }
+  ]
+}

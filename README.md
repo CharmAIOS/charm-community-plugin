@@ -40,3 +40,15 @@ To share your framework adapter (e.g., LangChain, AG2, Autogen) with the communi
 5. Submit a Pull Request.
 
 Once merged, your adapter will instantly appear in the Charm Store and become discoverable for `uv pip install`.
+
+## How to submit a Telemetry Exporter
+
+To share your observability integration (e.g., Datadog, LangSmith, Sentry) with the community:
+
+1. Use the [charm-telemetry-template](https://github.com/CharmAIOS/charm-telemetry-template) to bootstrap your project.
+2. Publish your telemetry package to PyPI.
+3. Fork this repository.
+4. Edit `telemetry/registry.json` to add your package details.
+5. Submit a Pull Request.
+
+Once merged, your telemetry exporter will instantly appear in the Charm Store.

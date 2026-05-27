@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Charm Telemetry Exporters Registry",
+  "type": "object",
+  "required": ["version", "exporters"],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "exporters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "pypi_package", "description", "author"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the telemetry exporter, matches the name in charm.yaml telemetry list",
+            "pattern": "^[a-z0-9-_]+$"
+          },
+          "pypi_package": {
+            "type": "string",
+            "description": "The pip-installable package name on PyPI"
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of the telemetry integration"
+          },
+          "author": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "github_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    }
+  }
+}
