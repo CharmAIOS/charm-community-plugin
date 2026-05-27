@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Charm Custom Runtime Registry Schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+      "name": { "type": "string" },
+      "description": { "type": "string", "maxLength": 150 },
+      "author": { "type": "string" },
+      "image": { "type": "string", "pattern": "^[^\\s]+:[^\\s]+$" },
+      "repo_url": { "type": "string", "format": "uri" },
+      "tags": {
+        "type": "array",
+        "items": { "type": "string" },
+        "maxItems": 3
+      }
+    },
+    "required": ["id", "name", "description", "author", "image", "repo_url"]
+  }
+}

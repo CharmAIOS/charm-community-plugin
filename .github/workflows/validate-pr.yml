@@ -1,0 +1,22 @@
+name: Validate Plugin Registry
+on:
+  pull_request:
+    paths:
+      - 'runtimes/registry.json'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install JSON Schema Validator
+        run: npm install -g ajv-cli
+        
+      - name: Validate runtimes/registry.json
+        run: ajv validate -s schemas/runtime.schema.json -d runtimes/registry.json
