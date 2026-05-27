@@ -76,3 +76,15 @@ To share a custom UI widget or chart (e.g., custom stock chart, data grid) for t
 5. Submit a Pull Request.
 
 Once merged, your output renderer will be dynamically loaded by the Charm Store whenever an agent emits your render type.
+
+## How to submit an Input UI Widget Plugin
+
+To share a custom configuration field (e.g., custom color picker, slider, or code editor) for the Store Frontend:
+
+1. Create a React component that implements the `FieldProps` interface and export it as the default export.
+2. Publish your React component package to NPM (ensure it is ESM compatible).
+3. Fork this repository.
+4. Edit `widgets/registry.json` to add your package details (`id` matches the `ui:widget` value).
+5. Submit a Pull Request.
+
+Once merged, your input widget will be dynamically loaded by the Charm Store whenever an agent uses your `ui:widget` in their `charm.yaml` settings schema.
