@@ -7,6 +7,7 @@ on:
       - 'adapters/registry.json'
       - 'telemetry/registry.json'
       - 'memory/registry.json'
+      - 'renderers/registry.json'
 
 jobs:
   validate:
@@ -41,3 +42,7 @@ jobs:
       - name: Validate memory/registry.json
         run: ajv validate -s schemas/memory.schema.json -d memory/registry.json
         if: hashFiles('memory/registry.json') != ''
+
+      - name: Validate renderers/registry.json
+        run: ajv validate -s schemas/renderers.schema.json -d renderers/registry.json
+        if: hashFiles('renderers/registry.json') != ''

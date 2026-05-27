@@ -64,3 +64,15 @@ To share your state and memory backend (e.g., Redis, MongoDB, Pinecone) with the
 5. Submit a Pull Request.
 
 Once merged, your memory plugin will instantly appear in the Charm Store.
+
+## How to submit an Output Renderer Plugin
+
+To share a custom UI widget or chart (e.g., custom stock chart, data grid) for the Store Frontend:
+
+1. Create a React component that takes a `payload` prop and export it as the default export.
+2. Publish your React component package to NPM (ensure it is ESM compatible).
+3. Fork this repository.
+4. Edit `renderers/registry.json` to add your package details (`id` matches the `_charm_render_type`).
+5. Submit a Pull Request.
+
+Once merged, your output renderer will be dynamically loaded by the Charm Store whenever an agent emits your render type.
