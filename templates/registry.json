@@ -30,7 +30,12 @@
         "code",
         "starter"
       ],
-      "name": "Custom Python Agent"
+      "name": "Custom Python Agent",
+      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
+      "downloads": 49415,
+      "created_at": "2024-05-01T00:00:00Z",
+      "version": "1.0.0",
+      "license": "MIT"
     },
     {
       "id": "openclaw",
@@ -61,7 +66,12 @@
         "mcp",
         "persistent"
       ],
-      "name": "OpenClaw MCP Agent"
+      "name": "OpenClaw MCP Agent",
+      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
+      "downloads": 39033,
+      "created_at": "2024-05-01T00:00:00Z",
+      "version": "1.0.0",
+      "license": "MIT"
     },
     {
       "id": "research-agent",
@@ -84,7 +94,12 @@
         "web-search",
         "mcp"
       ],
-      "name": "Web Research Agent"
+      "name": "Web Research Agent",
+      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
+      "downloads": 14720,
+      "created_at": "2024-05-01T00:00:00Z",
+      "version": "1.0.0",
+      "license": "MIT"
     },
     {
       "id": "code-review-agent",
@@ -114,7 +129,12 @@
         "code-review",
         "dev-tools"
       ],
-      "name": "Code Review Agent"
+      "name": "Code Review Agent",
+      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
+      "downloads": 8325,
+      "created_at": "2024-05-01T00:00:00Z",
+      "version": "1.0.0",
+      "license": "MIT"
     },
     {
       "id": "customer-support-agent",
@@ -137,7 +157,12 @@
         "daemon",
         "mcp"
       ],
-      "name": "Customer Support Daemon"
+      "name": "Customer Support Daemon",
+      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
+      "downloads": 39054,
+      "created_at": "2024-05-01T00:00:00Z",
+      "version": "1.0.0",
+      "license": "MIT"
     },
     {
       "id": "data-pipeline-agent",
@@ -168,7 +193,12 @@
         "etl",
         "pipeline"
       ],
-      "name": "Data Pipeline Agent"
+      "name": "Data Pipeline Agent",
+      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
+      "downloads": 6864,
+      "created_at": "2024-05-01T00:00:00Z",
+      "version": "1.0.0",
+      "license": "MIT"
     },
     {
       "id": "slack-bot",
@@ -191,7 +221,12 @@
         "bot",
         "daemon"
       ],
-      "name": "Slack Workspace Bot"
+      "name": "Slack Workspace Bot",
+      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
+      "downloads": 28334,
+      "created_at": "2024-05-01T00:00:00Z",
+      "version": "1.0.0",
+      "license": "MIT"
     }
   ]
 }
