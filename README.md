@@ -52,3 +52,15 @@ To share your observability integration (e.g., Datadog, LangSmith, Sentry) with 
 5. Submit a Pull Request.
 
 Once merged, your telemetry exporter will instantly appear in the Charm Store.
+
+## How to submit a Memory Storage Plugin
+
+To share your state and memory backend (e.g., Redis, MongoDB, Pinecone) with the community:
+
+1. Use the [charm-memory-template](https://github.com/CharmAIOS/charm-memory-template) to bootstrap your project.
+2. Publish your memory package to PyPI.
+3. Fork this repository.
+4. Edit `memory/registry.json` to add your package details.
+5. Submit a Pull Request.
+
+Once merged, your memory plugin will instantly appear in the Charm Store.

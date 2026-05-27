@@ -6,6 +6,7 @@ on:
       - 'templates/registry.json'
       - 'adapters/registry.json'
       - 'telemetry/registry.json'
+      - 'memory/registry.json'
 
 jobs:
   validate:
@@ -36,3 +37,7 @@ jobs:
       - name: Validate telemetry/registry.json
         run: ajv validate -s schemas/telemetry.schema.json -d telemetry/registry.json
         if: hashFiles('telemetry/registry.json') != ''
+
+      - name: Validate memory/registry.json
+        run: ajv validate -s schemas/memory.schema.json -d memory/registry.json
+        if: hashFiles('memory/registry.json') != ''
