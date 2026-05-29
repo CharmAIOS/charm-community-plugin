@@ -18,11 +18,8 @@ When submitting a plugin to any of the categories below, your JSON entry must fo
 
 ### Recommended Fields (for advanced Store UI features)
 - `version`: `string` (Current version, e.g., `"1.0.0"`)
-- `icon_url`: `string` (URL to a logo image for your plugin)
 - `docs_url`: `string` (URL to official documentation)
 - `license`: `string` (e.g., `"MIT"`)
-- `created_at`: `string` (ISO date for "Newest" sorting, e.g., `"2024-03-01T00:00:00Z"`)
-- `downloads` / `usage_count`: `number` (Used for "Popular" sorting)
 - `pypi_package` / `npm_package`: `string` (Used for generating install commands)
 
 ## How to submit a Custom Runtime

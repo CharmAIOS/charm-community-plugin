@@ -12,9 +12,6 @@
       ],
       "github_url": "https://github.com/CharmAIOS/charm-community-plugin",
       "name": "Color Picker Widget",
-      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
-      "downloads": 24646,
-      "created_at": "2024-05-01T00:00:00Z",
       "version": "1.0.0",
       "license": "MIT"
     }

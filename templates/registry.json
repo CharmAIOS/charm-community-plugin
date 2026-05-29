@@ -31,9 +31,6 @@
         "starter"
       ],
       "name": "Custom Python Agent",
-      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
-      "downloads": 49415,
-      "created_at": "2024-05-01T00:00:00Z",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -67,9 +64,6 @@
         "persistent"
       ],
       "name": "OpenClaw MCP Agent",
-      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
-      "downloads": 39033,
-      "created_at": "2024-05-01T00:00:00Z",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -95,9 +89,6 @@
         "mcp"
       ],
       "name": "Web Research Agent",
-      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
-      "downloads": 14720,
-      "created_at": "2024-05-01T00:00:00Z",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -130,9 +121,6 @@
         "dev-tools"
       ],
       "name": "Code Review Agent",
-      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
-      "downloads": 8325,
-      "created_at": "2024-05-01T00:00:00Z",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -158,9 +146,6 @@
         "mcp"
       ],
       "name": "Customer Support Daemon",
-      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
-      "downloads": 39054,
-      "created_at": "2024-05-01T00:00:00Z",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -194,9 +179,6 @@
         "pipeline"
       ],
       "name": "Data Pipeline Agent",
-      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
-      "downloads": 6864,
-      "created_at": "2024-05-01T00:00:00Z",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -222,9 +204,6 @@
         "daemon"
       ],
       "name": "Slack Workspace Bot",
-      "icon_url": "https://raw.githubusercontent.com/CharmAIOS/charm-community-plugin/main/assets/icons/default.png",
-      "downloads": 28334,
-      "created_at": "2024-05-01T00:00:00Z",
       "version": "1.0.0",
       "license": "MIT"
     }
