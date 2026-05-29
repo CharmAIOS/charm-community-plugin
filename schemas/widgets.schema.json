@@ -1,45 +1,40 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "UI Input Widgets Registry",
   "type": "object",
   "properties": {
-    "widgets": {
+    "id": {
+      "type": "string",
+      "description": "The exact ui:widget identifier used in charm.yaml (e.g. color_picker)",
+      "minLength": 1
+    },
+    "npm_package": {
+      "type": "string",
+      "description": "The NPM package name containing the default export React Component (e.g. charm-widget-colorpicker)",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "tags": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The exact ui:widget identifier used in charm.yaml (e.g. color_picker)",
-            "minLength": 1
-          },
-          "npm_package": {
-            "type": "string",
-            "description": "The NPM package name containing the default export React Component (e.g. charm-widget-colorpicker)",
-            "minLength": 1
-          },
-          "description": {
-            "type": "string"
-          },
-          "author": {
-            "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "github_url": {
-            "type": "string",
-            "format": "uri"
-          }
-        },
-        "required": ["id", "npm_package", "description", "author"],
-        "additionalProperties": false
+        "type": "string"
       }
+    },
+    "github_url": {
+      "type": "string",
+      "format": "uri"
     }
   },
-  "required": ["widgets"],
-  "additionalProperties": false
+  "required": [
+    "id",
+    "npm_package",
+    "description",
+    "author"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UI Input Widgets Registry"
 }

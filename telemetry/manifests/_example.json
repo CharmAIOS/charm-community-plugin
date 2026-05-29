@@ -1,0 +1,15 @@
+{
+  "id": "example-plugin",
+  "pypi_package": "charm-telemetry-datadog",
+  "description": "Export agent lifecycle events and LLM token usage to Datadog.",
+  "author": "Charm Team",
+  "tags": [
+    "datadog",
+    "observability",
+    "metrics"
+  ],
+  "github_url": "https://github.com/CharmAIOS/charm-telemetry-datadog",
+  "name": "Example Plugin",
+  "version": "1.0.0",
+  "license": "MIT"
+}

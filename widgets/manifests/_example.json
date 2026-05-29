@@ -1,0 +1,15 @@
+{
+  "id": "example-plugin",
+  "npm_package": "charm-widget-colorpicker",
+  "description": "A rich color picker widget with hex, rgb, and preset palette support.",
+  "author": "Charm Community",
+  "tags": [
+    "ui",
+    "design",
+    "color"
+  ],
+  "github_url": "https://github.com/CharmAIOS/charm-community-plugin",
+  "name": "Example Plugin",
+  "version": "1.0.0",
+  "license": "MIT"
+}

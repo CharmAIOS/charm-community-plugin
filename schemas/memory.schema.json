@@ -1,46 +1,39 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Charm Memory Storage Registry",
   "type": "object",
-  "required": ["version", "providers"],
+  "required": [
+    "id",
+    "pypi_package",
+    "description",
+    "author"
+  ],
   "properties": {
-    "version": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the memory provider, matches the runtime.memory.provider string",
+      "pattern": "^[a-z0-9-_]+$"
+    },
+    "pypi_package": {
+      "type": "string",
+      "description": "The pip-installable package name on PyPI"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the memory backend"
+    },
+    "author": {
       "type": "string"
     },
-    "providers": {
+    "tags": {
       "type": "array",
       "items": {
-        "type": "object",
-        "required": ["id", "pypi_package", "description", "author"],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the memory provider, matches the runtime.memory.provider string",
-            "pattern": "^[a-z0-9-_]+$"
-          },
-          "pypi_package": {
-            "type": "string",
-            "description": "The pip-installable package name on PyPI"
-          },
-          "description": {
-            "type": "string",
-            "description": "Short description of the memory backend"
-          },
-          "author": {
-            "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "github_url": {
-            "type": "string",
-            "format": "uri"
-          }
-        }
+        "type": "string"
       }
+    },
+    "github_url": {
+      "type": "string",
+      "format": "uri"
     }
-  }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Charm Memory Storage Registry"
 }

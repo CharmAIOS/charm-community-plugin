@@ -1,0 +1,13 @@
+{
+  "id": "example-plugin",
+  "name": "Example Plugin",
+  "description": "The official OpenClaw runtime with FFmpeg pre-installed for audio and video processing tasks.",
+  "author": "Charm Team",
+  "image": "us-central1-docker.pkg.dev/charm-cloud-runner/charm-images/runner-base-ffmpeg:latest",
+  "repo_url": "https://github.com/charmaios/charm",
+  "tags": [
+    "ffmpeg",
+    "openclaw",
+    "media"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "code-review-agent",
+  "description": "Code review for bugs, security, style",
+  "files": [
+    {
+      "path": "charm.yaml",
+      "content": "# Code Review Agent Template\n# Reviews code for bugs, security issues, and style improvements.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Code Review Agent\"\n  description: \"Reviews code for bugs, security vulnerabilities, performance issues, and style improvements.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"code-review\", \"developer-tools\", \"quality\", \"security\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"code\"]\n    properties:\n      code:\n        type: \"string\"\n        title: \"Code to Review\"\n        description: \"Paste the code snippet or file you'd like reviewed.\"\nlanguage:\n        type: \"string\"\n        title: \"Programming Language\"\n        description: \"Leave blank to auto-detect.\"\n        default: \"\"\n      focus:\n        type: \"string\"\n        title: \"Review Focus\"\n        enum: [\"general\", \"security\", \"performance\", \"style\"]\n        default: \"general\"\n\n  ui:\n    code: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: false\n  max_steps: 15\n  execution_timeout_seconds: 60\n"
+    },
+    {
+      "path": ".charmignore",
+      "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+    },
+    {
+      "path": "src/__init__.py",
+      "content": ""
+    },
+    {
+      "path": "src/main.py",
+      "content": "# Code Review Agent\n# Receives code + focus area, returns a structured review.\n\ndef agent(inputs):\n    code = inputs.get('code', '')\n    language = inputs.get('language', 'auto-detect') or 'auto-detect'\n    focus = inputs.get('focus', 'general')\n\n    # TODO: call your preferred LLM here\n    # Example (pseudo-code):\n    # prompt = build_review_prompt(code, language, focus)\n    # return llm.complete(prompt)\n\n    return f'[Code Review \u2014 {focus}]\\n\\nLanguage: {language}\\n\\n{code[:80]}...\\n\\n(Implement your review logic above)'\n"
+    }
+  ],
+  "post_init_message": "  \u251c\u2500\u2500 charm.yaml\n  \u251c\u2500\u2500 .charmignore\n  \u2514\u2500\u2500 src/main.py  \u2190 add your LLM call here",
+  "author": "Charm Team",
+  "github_url": "https://github.com/CharmAIOS/Charm",
+  "tags": [
+    "code-review",
+    "dev-tools"
+  ],
+  "name": "Code Review Agent",
+  "version": "1.0.0",
+  "license": "MIT"
+}

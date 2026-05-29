@@ -1,0 +1,25 @@
+{
+  "id": "research-agent",
+  "description": "Web research & report generation",
+  "files": [
+    {
+      "path": "charm.yaml",
+      "content": "# Research Agent Template\n# Searches the web, synthesises sources, and compiles structured reports.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Research Agent\"\n  description: \"Searches the web, synthesises findings, and compiles structured reports on any topic.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"research\", \"web-search\", \"summarisation\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"query\"]\n    properties:\n      query:\n        type: \"string\"\n        title: \"Research Query\"\n        description: \"What would you like me to research?\"\ndepth:\n        type: \"string\"\n        title: \"Research Depth\"\n        enum: [\"brief\", \"detailed\", \"comprehensive\"]\n        default: \"detailed\"\n\n  ui:\n    query: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.3\n    system_prompt: |\n      You are a thorough research assistant. Given a research query, you will:\n      1. Search the web for authoritative, up-to-date sources\n      2. Read and synthesise information from multiple sources\n      3. Identify key facts, statistics, and expert opinions\n      4. Present findings in a clear, structured report with citations\n\n      Always cite your sources. Distinguish between established facts and emerging views.\n\n      Depth guide:\n      - \"brief\"         \u2192 2\u20133 paragraph summary\n      - \"detailed\"      \u2192 sections with headings and bullet points\n      - \"comprehensive\" \u2192 full report with introduction, body, and conclusion\n\n  mode: \"full\"\n  lifecycle: \"serverless\"\n\n  skills:\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n    - name: \"fetch\"\n      source: \"smithery:@mcp/fetch\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 30\n  execution_timeout_seconds: 180\n"
+    },
+    {
+      "path": ".charmignore",
+      "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+    }
+  ],
+  "post_init_message": "  \u251c\u2500\u2500 charm.yaml  \u2190 system_prompt & web-search skill pre-configured\n  \u2514\u2500\u2500 .charmignore\n\nNext: edit charm.yaml to refine the system_prompt, then charm push",
+  "author": "Charm Team",
+  "github_url": "https://github.com/CharmAIOS/Charm",
+  "tags": [
+    "research",
+    "web-search",
+    "mcp"
+  ],
+  "name": "Web Research Agent",
+  "version": "1.0.0",
+  "license": "MIT"
+}

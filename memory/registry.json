@@ -1,35 +1,4 @@
 {
   "version": "1.0",
-  "providers": [
-    {
-      "id": "redis",
-      "pypi_package": "charm-memory-redis",
-      "description": "High-performance Redis backend for agent state and message history.",
-      "author": "Charm Team",
-      "tags": [
-        "redis",
-        "database",
-        "kv"
-      ],
-      "github_url": "https://github.com/CharmAIOS/charm-memory-redis",
-      "name": "Redis Storage Provider",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "pinecone",
-      "pypi_package": "charm-memory-pinecone",
-      "description": "Vector-based semantic memory using Pinecone.",
-      "author": "Charm Team",
-      "tags": [
-        "pinecone",
-        "vector",
-        "semantic"
-      ],
-      "github_url": "https://github.com/CharmAIOS/charm-memory-pinecone",
-      "name": "Pinecone Vector Memory",
-      "version": "1.0.0",
-      "license": "MIT"
-    }
-  ]
+  "providers": []
 }

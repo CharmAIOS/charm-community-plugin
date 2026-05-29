@@ -1,0 +1,33 @@
+{
+  "id": "example-template",
+  "description": "Custom Python agent (code-based)",
+  "files": [
+    {
+      "path": "charm.yaml",
+      "content": "# Python Code-based Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My Python Agent\"\n  description: \"A Python-based agent using custom code.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Input\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
+    },
+    {
+      "path": ".charmignore",
+      "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+    },
+    {
+      "path": "src/__init__.py",
+      "content": ""
+    },
+    {
+      "path": "src/main.py",
+      "content": "# Define your agent logic here.\n# The object must be named 'agent' to match charm.yaml entry_point.\n\ndef agent(inputs):\n    return f\"Hello from Charm! Input received: {inputs}\"\n"
+    }
+  ],
+  "post_init_message": "  \u251c\u2500\u2500 charm.yaml\n  \u251c\u2500\u2500 .charmignore\n  \u2514\u2500\u2500 src/\n      \u251c\u2500\u2500 __init__.py\n      \u2514\u2500\u2500 main.py",
+  "author": "Charm Team",
+  "github_url": "https://github.com/CharmAIOS/Charm",
+  "tags": [
+    "python",
+    "code",
+    "starter"
+  ],
+  "name": "Custom Python Agent",
+  "version": "1.0.0",
+  "license": "MIT"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "customer-support-agent",
+  "description": "Always-on customer support daemon",
+  "files": [
+    {
+      "path": "charm.yaml",
+      "content": "# Customer Support Agent Template\n# Handles enquiries, resolves issues, and escalates when needed.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Customer Support Agent\"\n  description: \"Handles customer enquiries, resolves issues, and escalates when needed. Runs as a persistent always-on daemon.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"support\", \"customer-service\", \"helpdesk\", \"daemon\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"message\"]\n    properties:\n      message:\n        type: \"string\"\n        title: \"Customer Message\"\n        description: \"The customer's question or issue.\"\ncustomer_id:\n        type: \"string\"\n        title: \"Customer ID\"\n        description: \"Optional \u2014 used to personalise the response.\"\n\n  ui:\n    message: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.4\n    system_prompt: |\n      You are a friendly, professional customer support agent.\n\n      Your goals:\n      - Understand the customer's issue quickly and empathetically\n      - Provide clear, accurate answers\n      - Offer step-by-step guidance for technical problems\n      - Escalate complex billing or account issues to the human team\n      - Always end with a confirmation that the issue is resolved, or a clear next-action step\n\n      Tone: warm, concise, solution-focused. Avoid jargon.\n      If the customer is frustrated, acknowledge their feelings before solving.\n\n  mode: \"full\"\n  lifecycle: \"daemon\"\n\n  skills:\n    - name: \"knowledge-base\"\n      source: \"smithery:@mcp/knowledge-base\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20\n  execution_timeout_seconds: 90\n"
+    },
+    {
+      "path": ".charmignore",
+      "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+    }
+  ],
+  "post_init_message": "  \u251c\u2500\u2500 charm.yaml  \u2190 daemon lifecycle, knowledge-base skill pre-configured\n  \u2514\u2500\u2500 .charmignore\n\nTip: this agent runs as a daemon \u2014 it stays alive between requests.\nEdit the system_prompt in charm.yaml with your product knowledge, then charm push",
+  "author": "Charm Team",
+  "github_url": "https://github.com/CharmAIOS/Charm",
+  "tags": [
+    "support",
+    "daemon",
+    "mcp"
+  ],
+  "name": "Customer Support Daemon",
+  "version": "1.0.0",
+  "license": "MIT"
+}

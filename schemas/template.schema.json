@@ -1,58 +1,54 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Charm Community Template Registry",
   "type": "object",
-  "required": ["version", "templates"],
+  "required": [
+    "id",
+    "description",
+    "files",
+    "post_init_message"
+  ],
   "properties": {
-    "version": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "description": {
       "type": "string"
     },
-    "templates": {
+    "author": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "github_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "post_init_message": {
+      "type": "string"
+    },
+    "files": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "description", "files", "post_init_message"],
+        "required": [
+          "path",
+          "content"
+        ],
         "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^[a-z0-9-]+$"
-          },
-          "description": {
+          "path": {
             "type": "string"
           },
-          "author": {
+          "content": {
             "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "github_url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "post_init_message": {
-            "type": "string"
-          },
-          "files": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "required": ["path", "content"],
-              "properties": {
-                "path": {
-                  "type": "string"
-                },
-                "content": {
-                  "type": "string"
-                }
-              }
-            }
           }
         }
       }
     }
-  }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Charm Community Template Registry"
 }

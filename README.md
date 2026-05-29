@@ -22,87 +22,49 @@ When submitting a plugin to any of the categories below, your JSON entry must fo
 - `license`: `string` (e.g., `"MIT"`)
 - `pypi_package` / `npm_package`: `string` (Used for generating install commands)
 
-## How to submit a Custom Runtime
+## How to Submit a Plugin
 
-To make your custom Docker image discoverable to the Charm ecosystem:
-
-1. Fork this repository.
-2. Edit `runtimes/registry.json` to add your image.
-3. Submit a Pull Request.
-
-### Requirements
-- Your entry must conform to `schemas/runtime.schema.json`.
-- The `image` must be publicly accessible (e.g., GHCR, Docker Hub).
-- The `image` must be built for `linux/amd64` architecture.
-- The `image` must extend the official Charm base images.
-
-## How to submit an Agent Template
-
-To share your starter template with the community:
+We use a "One File Per Plugin" manifest system to avoid Git merge conflicts. To submit a plugin or template:
 
 1. Fork this repository.
-2. Convert your project files into a single JSON entry following the structure in `templates/registry.json`.
-3. Append your entry to the `templates` array.
-4. Submit a Pull Request.
-
-Once merged, your template will instantly appear in the Charm Store and become available via `charm init --template <your-template-id>`.
-
-## How to submit a Custom Adapter
-
-To share your framework adapter (e.g., LangChain, AG2, Autogen) with the community:
-
-1. Use the [charm-adapter-template](https://github.com/CharmAIOS/charm-adapter-template) to bootstrap your project.
-2. Publish your adapter package to PyPI.
-3. Fork this repository.
-4. Edit `adapters/registry.json` to add your package details.
+2. Find the relevant category folder (e.g., `adapters/`, `memory/`, `templates/`).
+3. Inside the `manifests/` folder, copy the `_example.json` file and rename it to your plugin's ID (e.g., `adapters/manifests/my_plugin.json`).
+4. Fill out the JSON file according to the schema requirements.
 5. Submit a Pull Request.
 
-Once merged, your adapter will instantly appear in the Charm Store and become discoverable for `uv pip install`.
+Once your Pull Request is merged into `main`, our GitHub Actions will automatically compile your manifest into the central `registry.json` and it will instantly appear in the Charm Store!
 
-## How to submit a Telemetry Exporter
+### Custom Runtimes
+- Category Folder: `runtimes/manifests/`
+- Schema: `schemas/runtime.schema.json`
+- The `image` must be built for `linux/amd64` architecture and extend the official Charm base images.
 
-To share your observability integration (e.g., Datadog, LangSmith, Sentry) with the community:
+### Agent Templates
+- Category Folder: `templates/manifests/`
+- Schema: `schemas/template.schema.json`
+- Convert your project files into the required JSON structure.
 
-1. Use the [charm-telemetry-template](https://github.com/CharmAIOS/charm-telemetry-template) to bootstrap your project.
-2. Publish your telemetry package to PyPI.
-3. Fork this repository.
-4. Edit `telemetry/registry.json` to add your package details.
-5. Submit a Pull Request.
+### Custom Adapters
+- Category Folder: `adapters/manifests/`
+- Schema: `schemas/adapter.schema.json`
+- You must publish your adapter package to PyPI first.
 
-Once merged, your telemetry exporter will instantly appear in the Charm Store.
+### Telemetry Exporters
+- Category Folder: `telemetry/manifests/`
+- Schema: `schemas/telemetry.schema.json`
+- You must publish your telemetry package to PyPI first.
 
-## How to submit a Memory Storage Plugin
+### Memory Storage Plugins
+- Category Folder: `memory/manifests/`
+- Schema: `schemas/memory.schema.json`
+- You must publish your memory package to PyPI first.
 
-To share your state and memory backend (e.g., Redis, MongoDB, Pinecone) with the community:
+### Output Renderer Plugins
+- Category Folder: `renderers/manifests/`
+- Schema: `schemas/renderers.schema.json`
+- You must publish your React component package to NPM first (ensure it is ESM compatible).
 
-1. Use the [charm-memory-template](https://github.com/CharmAIOS/charm-memory-template) to bootstrap your project.
-2. Publish your memory package to PyPI.
-3. Fork this repository.
-4. Edit `memory/registry.json` to add your package details.
-5. Submit a Pull Request.
-
-Once merged, your memory plugin will instantly appear in the Charm Store.
-
-## How to submit an Output Renderer Plugin
-
-To share a custom UI widget or chart (e.g., custom stock chart, data grid) for the Store Frontend:
-
-1. Create a React component that takes a `payload` prop and export it as the default export.
-2. Publish your React component package to NPM (ensure it is ESM compatible).
-3. Fork this repository.
-4. Edit `renderers/registry.json` to add your package details (`id` matches the `_charm_render_type`).
-5. Submit a Pull Request.
-
-Once merged, your output renderer will be dynamically loaded by the Charm Store whenever an agent emits your render type.
-
-## How to submit an Input UI Widget Plugin
-
-To share a custom configuration field (e.g., custom color picker, slider, or code editor) for the Store Frontend:
-
-1. Create a React component that implements the `FieldProps` interface and export it as the default export.
-2. Publish your React component package to NPM (ensure it is ESM compatible).
-3. Fork this repository.
-4. Edit `widgets/registry.json` to add your package details (`id` matches the `ui:widget` value).
-5. Submit a Pull Request.
-
-Once merged, your input widget will be dynamically loaded by the Charm Store whenever an agent uses your `ui:widget` in their `charm.yaml` settings schema.
+### Input UI Widget Plugins
+- Category Folder: `widgets/manifests/`
+- Schema: `schemas/widgets.schema.json`
+- You must publish your React component package to NPM first (ensure it is ESM compatible).

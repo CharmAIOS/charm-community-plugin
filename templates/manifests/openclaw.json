@@ -1,0 +1,33 @@
+{
+  "id": "openclaw",
+  "description": "MCP-powered OpenClaw agent",
+  "files": [
+    {
+      "path": "charm.yaml",
+      "content": "# OpenClaw MCP-powered Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My OpenClaw Agent\"\n  description: \"A persistent, stateful MCP-powered agent.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Instruction\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    # Optional: custom entry_point for OpenClaw\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    # This becomes your agent's long-term identity\n    system_prompt: |\n      You are a helpful assistant living in the cloud.\n      You have access to a persistent workspace.\n      Always check your memory file before answering.\n\n  mode: \"full\"\n  lifecycle: \"serverless\"\n\n  skills:\n    # Example: Google Search MCP skill\n    - name: \"google-search\"\n      source: \"smithery:@mcp/google-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
+    },
+    {
+      "path": ".charmignore",
+      "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+    },
+    {
+      "path": "skills/my_tool/server.py",
+      "content": "print('Hello from custom skill!')\n# Implement MCP server here"
+    },
+    {
+      "path": "skills/my_tool/requirements.txt",
+      "content": "mcp"
+    }
+  ],
+  "post_init_message": "  \u251c\u2500\u2500 charm.yaml\n  \u251c\u2500\u2500 .charmignore\n  \u2514\u2500\u2500 skills/\n      \u2514\u2500\u2500 my_tool/  <-- Example custom skill",
+  "author": "Charm Team",
+  "github_url": "https://github.com/CharmAIOS/Charm",
+  "tags": [
+    "openclaw",
+    "mcp",
+    "persistent"
+  ],
+  "name": "OpenClaw MCP Agent",
+  "version": "1.0.0",
+  "license": "MIT"
+}

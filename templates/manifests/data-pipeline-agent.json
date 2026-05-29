@@ -1,0 +1,33 @@
+{
+  "id": "data-pipeline-agent",
+  "description": "Data processing & ETL pipeline",
+  "files": [
+    {
+      "path": "charm.yaml",
+      "content": "# Data Pipeline Agent Template\n# Processes, transforms, and analyses structured data inputs.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Data Pipeline Agent\"\n  description: \"Processes, transforms, and analyses structured data inputs, producing clean outputs and insights.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"data\", \"pipeline\", \"etl\", \"analytics\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"data\"]\n    properties:\n      data:\n        type: \"string\"\n        title: \"Input Data\"\n        description: \"CSV, JSON, or plain-text data to process.\"\ntask:\n        type: \"string\"\n        title: \"Task\"\n        enum: [\"clean\", \"summarise\", \"transform\", \"analyse\"]\n        default: \"analyse\"\n      output_format:\n        type: \"string\"\n        title: \"Output Format\"\n        enum: [\"json\", \"csv\", \"markdown\"]\n        default: \"markdown\"\n\n  ui:\n    data: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: false\n  max_steps: 25\n  execution_timeout_seconds: 180\n"
+    },
+    {
+      "path": ".charmignore",
+      "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+    },
+    {
+      "path": "src/__init__.py",
+      "content": ""
+    },
+    {
+      "path": "src/main.py",
+      "content": "# Data Pipeline Agent\n# Routes data through clean / summarise / transform / analyse tasks.\n\ndef agent(inputs):\n    data = inputs.get('data', '')\n    task = inputs.get('task', 'analyse')\n    output_format = inputs.get('output_format', 'markdown')\n\n    # TODO: implement each task branch\n    if task == 'clean':\n        result = data.strip()  # replace with real cleaning logic\n    elif task == 'summarise':\n        result = data[:200] + '...'  # replace with LLM summarisation\n    elif task == 'transform':\n        result = data  # replace with transformation logic\n    else:  # analyse\n        result = f'Analysis of {len(data)} chars of data.'  # replace with LLM analysis\n\n    if output_format == 'json':\n        import json\n        return json.dumps({'result': result})\n    return result\n"
+    }
+  ],
+  "post_init_message": "  \u251c\u2500\u2500 charm.yaml\n  \u251c\u2500\u2500 .charmignore\n  \u2514\u2500\u2500 src/main.py  \u2190 implement your pipeline tasks here",
+  "author": "Charm Team",
+  "github_url": "https://github.com/CharmAIOS/Charm",
+  "tags": [
+    "data",
+    "etl",
+    "pipeline"
+  ],
+  "name": "Data Pipeline Agent",
+  "version": "1.0.0",
+  "license": "MIT"
+}

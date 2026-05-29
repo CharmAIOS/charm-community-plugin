@@ -1,14 +1,14 @@
-name: Validate Plugin Registry
+name: Validate Plugin Manifests
 on:
   pull_request:
     paths:
-      - 'runtimes/registry.json'
-      - 'templates/registry.json'
-      - 'adapters/registry.json'
-      - 'telemetry/registry.json'
-      - 'memory/registry.json'
-      - 'renderers/registry.json'
-      - 'widgets/registry.json'
+      - 'runtimes/manifests/*.json'
+      - 'templates/manifests/*.json'
+      - 'adapters/manifests/*.json'
+      - 'telemetry/manifests/*.json'
+      - 'memory/manifests/*.json'
+      - 'renderers/manifests/*.json'
+      - 'widgets/manifests/*.json'
 
 jobs:
   validate:
@@ -22,32 +22,81 @@ jobs:
           node-version: '18'
           
       - name: Install JSON Schema Validator
-        run: npm install -g ajv-cli
+        run: npm install -g ajv-cli ajv-formats
         
-      - name: Validate runtimes/registry.json
-        run: ajv validate -s schemas/runtime.schema.json -d runtimes/registry.json
-        if: hashFiles('runtimes/registry.json') != ''
+      - name: Validate runtimes
+        run: |
+          shopt -s nullglob
+          failed=0
+          for f in runtimes/manifests/*.json; do
+            [ "$(basename "$f")" = "_example.json" ] && continue
+            echo "Validating $f..."
+            ajv validate -c ajv-formats -s schemas/runtime.schema.json -d "$f" || failed=1
+          done
+          exit $failed
         
-      - name: Validate templates/registry.json
-        run: ajv validate -s schemas/template.schema.json -d templates/registry.json
-        if: hashFiles('templates/registry.json') != ''
+      - name: Validate templates
+        run: |
+          shopt -s nullglob
+          failed=0
+          for f in templates/manifests/*.json; do
+            [ "$(basename "$f")" = "_example.json" ] && continue
+            echo "Validating $f..."
+            ajv validate -c ajv-formats -s schemas/template.schema.json -d "$f" || failed=1
+          done
+          exit $failed
         
-      - name: Validate adapters/registry.json
-        run: ajv validate -s schemas/adapter.schema.json -d adapters/registry.json
-        if: hashFiles('adapters/registry.json') != ''
+      - name: Validate adapters
+        run: |
+          shopt -s nullglob
+          failed=0
+          for f in adapters/manifests/*.json; do
+            [ "$(basename "$f")" = "_example.json" ] && continue
+            echo "Validating $f..."
+            ajv validate -c ajv-formats -s schemas/adapter.schema.json -d "$f" || failed=1
+          done
+          exit $failed
         
-      - name: Validate telemetry/registry.json
-        run: ajv validate -s schemas/telemetry.schema.json -d telemetry/registry.json
-        if: hashFiles('telemetry/registry.json') != ''
+      - name: Validate telemetry
+        run: |
+          shopt -s nullglob
+          failed=0
+          for f in telemetry/manifests/*.json; do
+            [ "$(basename "$f")" = "_example.json" ] && continue
+            echo "Validating $f..."
+            ajv validate -c ajv-formats -s schemas/telemetry.schema.json -d "$f" || failed=1
+          done
+          exit $failed
 
-      - name: Validate memory/registry.json
-        run: ajv validate -s schemas/memory.schema.json -d memory/registry.json
-        if: hashFiles('memory/registry.json') != ''
+      - name: Validate memory
+        run: |
+          shopt -s nullglob
+          failed=0
+          for f in memory/manifests/*.json; do
+            [ "$(basename "$f")" = "_example.json" ] && continue
+            echo "Validating $f..."
+            ajv validate -c ajv-formats -s schemas/memory.schema.json -d "$f" || failed=1
+          done
+          exit $failed
 
-      - name: Validate renderers/registry.json
-        run: ajv validate -s schemas/renderers.schema.json -d renderers/registry.json
-        if: hashFiles('renderers/registry.json') != ''
+      - name: Validate renderers
+        run: |
+          shopt -s nullglob
+          failed=0
+          for f in renderers/manifests/*.json; do
+            [ "$(basename "$f")" = "_example.json" ] && continue
+            echo "Validating $f..."
+            ajv validate -c ajv-formats -s schemas/renderers.schema.json -d "$f" || failed=1
+          done
+          exit $failed
 
-      - name: Validate widgets/registry.json
-        run: ajv validate -s schemas/widgets.schema.json -d widgets/registry.json
-        if: hashFiles('widgets/registry.json') != ''
+      - name: Validate widgets
+        run: |
+          shopt -s nullglob
+          failed=0
+          for f in widgets/manifests/*.json; do
+            [ "$(basename "$f")" = "_example.json" ] && continue
+            echo "Validating $f..."
+            ajv validate -c ajv-formats -s schemas/widgets.schema.json -d "$f" || failed=1
+          done
+          exit $failed

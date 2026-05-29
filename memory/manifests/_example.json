@@ -1,0 +1,15 @@
+{
+  "id": "example-plugin",
+  "pypi_package": "charm-memory-redis",
+  "description": "High-performance Redis backend for agent state and message history.",
+  "author": "Charm Team",
+  "tags": [
+    "redis",
+    "database",
+    "kv"
+  ],
+  "github_url": "https://github.com/CharmAIOS/charm-memory-redis",
+  "name": "Example Plugin",
+  "version": "1.0.0",
+  "license": "MIT"
+}
