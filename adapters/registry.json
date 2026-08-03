@@ -1,15 +1,4 @@
 {
   "version": "1.0",
-  "adapters": [
-    {
-      "id": "hermes",
-      "name": "Hermes Agent Adapter",
-      "author": "Charm Official",
-      "github_url": "https://github.com/CharmAIOS/charm-adapter-hermes",
-      "pip_package": "charm-adapter-hermes",
-      "description": "Official adapter for Nous Research Hermes Agent. Supports daemon lifecycle with persistent memory, self-improving skills, and multi-provider LLM backends.",
-      "lifecycle": ["daemon", "serverless"],
-      "verified": true
-    }
-  ]
+  "adapters": []
 }

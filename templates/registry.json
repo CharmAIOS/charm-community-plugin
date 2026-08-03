@@ -2,6 +2,72 @@
   "version": "1.0",
   "templates": [
     {
+      "id": "openclaw",
+      "description": "MCP-powered OpenClaw agent",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# OpenClaw MCP-powered Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My OpenClaw Agent\"\n  description: \"A persistent, stateful MCP-powered agent.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Instruction\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    # Optional: custom entry_point for OpenClaw\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    # This becomes your agent's long-term identity\n    system_prompt: |\n      You are a helpful assistant living in the cloud.\n      You have access to a persistent workspace.\n      Always check your memory file before answering.\n\n  mode: \"full\"\n  lifecycle: \"serverless\"\n\n  skills:\n    # Example: Google Search MCP skill\n    - name: \"google-search\"\n      source: \"smithery:@mcp/google-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        },
+        {
+          "path": "skills/my_tool/server.py",
+          "content": "print('Hello from custom skill!')\n# Implement MCP server here"
+        },
+        {
+          "path": "skills/my_tool/requirements.txt",
+          "content": "mcp"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── skills/\n      └── my_tool/  <-- Example custom skill",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "openclaw",
+        "mcp",
+        "persistent"
+      ],
+      "name": "OpenClaw MCP Agent",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "id": "python",
+      "description": "Custom Python agent (code-based)",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Python Code-based Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My Python Agent\"\n  description: \"A Python-based agent using custom code.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Input\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        },
+        {
+          "path": "src/__init__.py",
+          "content": ""
+        },
+        {
+          "path": "src/main.py",
+          "content": "# Define your agent logic here.\n# The object must be named 'agent' to match charm.yaml entry_point.\n\ndef agent(inputs):\n    return f\"Hello from Charm! Input received: {inputs}\"\n"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── src/\n      ├── __init__.py\n      └── main.py",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "python",
+        "code",
+        "starter"
+      ],
+      "name": "Custom Python Agent",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
       "id": "code-review-agent",
       "description": "Code review for bugs, security, style",
       "files": [
@@ -30,6 +96,31 @@
         "dev-tools"
       ],
       "name": "Code Review Agent",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "id": "slack-bot",
+      "description": "Persistent Slack workspace bot",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Slack Bot Agent Template\n# A persistent daemon agent that lives inside a Slack workspace.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Slack Bot Agent\"\n  description: \"A persistent agent that operates inside Slack — responds to mentions, summarises threads, and runs scheduled tasks.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"slack\", \"team\", \"productivity\", \"automation\", \"daemon\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"message\"]\n    properties:\n      message:\n        type: \"string\"\n        title: \"Message\"\n        description: \"The Slack message or slash command sent to the bot.\"\nchannel:\n        type: \"string\"\n        title: \"Channel ID\"\n        description: \"Slack channel ID (e.g. C01234567)\"\n      user:\n        type: \"string\"\n        title: \"Slack User ID\"\n        description: \"ID of the user who sent the message.\"\n\n  ui:\n    message: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    system_prompt: |\n      You are a helpful Slack bot embedded in a team workspace.\n\n      You can:\n      - Answer questions about team projects and processes\n      - Summarise long Slack threads when asked\n      - Draft messages and documents for team members\n      - Look up information using your connected tools\n      - Run scheduled reminders and standup prompts\n\n      Keep responses concise — Slack messages should be brief.\n      Use bullet points for lists. Address the user by name when their ID is provided.\n      Avoid lengthy paragraphs; break information into digestible chunks.\n\n  mode: \"full\"\n  lifecycle: \"daemon\"\n\n  skills:\n    - name: \"slack\"\n      source: \"smithery:@mcp/slack\"\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20\n  execution_timeout_seconds: 60\n"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml  ← daemon lifecycle, Slack MCP skill pre-configured\n  └── .charmignore\n\nTip: this agent runs as a daemon — it persists across Slack events.\nAdd your Slack API credentials as secrets, then charm push",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "slack",
+        "bot",
+        "daemon"
+      ],
+      "name": "Slack Workspace Bot",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -113,136 +204,6 @@
         "mcp"
       ],
       "name": "Customer Support Daemon",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "openclaw",
-      "description": "MCP-powered OpenClaw agent",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# OpenClaw MCP-powered Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My OpenClaw Agent\"\n  description: \"A persistent, stateful MCP-powered agent.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Instruction\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    # Optional: custom entry_point for OpenClaw\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    # This becomes your agent's long-term identity\n    system_prompt: |\n      You are a helpful assistant living in the cloud.\n      You have access to a persistent workspace.\n      Always check your memory file before answering.\n\n  mode: \"full\"\n  lifecycle: \"serverless\"\n\n  skills:\n    # Example: Google Search MCP skill\n    - name: \"google-search\"\n      source: \"smithery:@mcp/google-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        },
-        {
-          "path": "skills/my_tool/server.py",
-          "content": "print('Hello from custom skill!')\n# Implement MCP server here"
-        },
-        {
-          "path": "skills/my_tool/requirements.txt",
-          "content": "mcp"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── skills/\n      └── my_tool/  <-- Example custom skill",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "openclaw",
-        "mcp",
-        "persistent"
-      ],
-      "name": "OpenClaw MCP Agent",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "python",
-      "description": "Custom Python agent (code-based)",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Python Code-based Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My Python Agent\"\n  description: \"A Python-based agent using custom code.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Input\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        },
-        {
-          "path": "src/__init__.py",
-          "content": ""
-        },
-        {
-          "path": "src/main.py",
-          "content": "# Define your agent logic here.\n# The object must be named 'agent' to match charm.yaml entry_point.\n\ndef agent(inputs):\n    return f\"Hello from Charm! Input received: {inputs}\"\n"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── src/\n      ├── __init__.py\n      └── main.py",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "python",
-        "code",
-        "starter"
-      ],
-      "name": "Custom Python Agent",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "slack-bot",
-      "description": "Persistent Slack workspace bot",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Slack Bot Agent Template\n# A persistent daemon agent that lives inside a Slack workspace.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Slack Bot Agent\"\n  description: \"A persistent agent that operates inside Slack — responds to mentions, summarises threads, and runs scheduled tasks.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"slack\", \"team\", \"productivity\", \"automation\", \"daemon\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"message\"]\n    properties:\n      message:\n        type: \"string\"\n        title: \"Message\"\n        description: \"The Slack message or slash command sent to the bot.\"\nchannel:\n        type: \"string\"\n        title: \"Channel ID\"\n        description: \"Slack channel ID (e.g. C01234567)\"\n      user:\n        type: \"string\"\n        title: \"Slack User ID\"\n        description: \"ID of the user who sent the message.\"\n\n  ui:\n    message: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    system_prompt: |\n      You are a helpful Slack bot embedded in a team workspace.\n\n      You can:\n      - Answer questions about team projects and processes\n      - Summarise long Slack threads when asked\n      - Draft messages and documents for team members\n      - Look up information using your connected tools\n      - Run scheduled reminders and standup prompts\n\n      Keep responses concise — Slack messages should be brief.\n      Use bullet points for lists. Address the user by name when their ID is provided.\n      Avoid lengthy paragraphs; break information into digestible chunks.\n\n  mode: \"full\"\n  lifecycle: \"daemon\"\n\n  skills:\n    - name: \"slack\"\n      source: \"smithery:@mcp/slack\"\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20\n  execution_timeout_seconds: 60\n"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml  ← daemon lifecycle, Slack MCP skill pre-configured\n  └── .charmignore\n\nTip: this agent runs as a daemon — it persists across Slack events.\nAdd your Slack API credentials as secrets, then charm push",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "slack",
-        "bot",
-        "daemon"
-      ],
-      "name": "Slack Workspace Bot",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "hermes-agent",
-      "description": "Self-improving Hermes Agent with persistent memory (daemon)",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "version: \"0.4.2\"\n\npersona:\n  name: \"Hermes Agent\"\n  description: \"Self-improving AI agent with persistent memory\"\n  full_description: |\n    A Hermes Agent powered by Nous Research's open-source framework.\n    Features self-improving skills, cross-session memory with FTS5 search,\n    and multi-provider LLM support. Runs as a daemon for 24/7 availability.\n\ninterface:\n  input:\n    type: object\n    properties:\n      query:\n        type: string\n        description: \"The user's message or task for the agent.\"\n  output:\n    type: string\n\nruntime:\n  adapter:\n    type: \"hermes\"\n    entry_point: \"src.main:agent\"\n  lifecycle: \"daemon\"\n  mode: \"full\"\n  environment_variables:\n    models:\n      - OPENROUTER_API_KEY\n\npolicies:\n  execution_timeout_seconds: 600\n"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\n__pycache__\n*.pyc\n*.pyo\n.env\n.env.local\n.git\n.DS_Store\n.vscode\n.idea\n*.egg-info\nnode_modules\n"
-        },
-        {
-          "path": "src/__init__.py",
-          "content": ""
-        },
-        {
-          "path": "src/main.py",
-          "content": "\"\"\"Hermes Agent Entry Point for Charm.\"\"\"\nimport os\n\ntry:\n    from run_agent import AIAgent\n    agent = AIAgent(\n        model=os.getenv(\"CHARM_HERMES_MODEL\", \"openrouter/auto\"),\n        quiet_mode=True,\n        save_trajectories=False,\n    )\nexcept ImportError:\n    class DummyAgent:\n        def __init__(self, *args, **kwargs):\n            pass\n    agent = DummyAgent()\n"
-        },
-        {
-          "path": "requirements.txt",
-          "content": "charm-adapter-hermes>=0.1.0\n"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml           (lifecycle: daemon)\n  ├── .charmignore\n  ├── requirements.txt\n  └── src/main.py          ← customize model & tools here\n\n  Set OPENROUTER_API_KEY before running:\n    export OPENROUTER_API_KEY=\"sk-or-...\"\n    charm run --input '{\"query\": \"Hello!\"}'",
-      "author": "Charm Official",
-      "github_url": "https://github.com/CharmAIOS/charm-adapter-hermes",
-      "tags": [
-        "hermes",
-        "nous-research",
-        "daemon",
-        "self-improving",
-        "memory"
-      ],
-      "name": "Hermes Agent",
       "version": "1.0.0",
       "license": "MIT"
     }
