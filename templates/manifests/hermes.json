@@ -1,0 +1,9 @@
+{
+  "id": "hermes-agent",
+  "name": "Hermes Official Starter",
+  "author": "Charm Official",
+  "description": "Official starter template for the Nous Research Hermes Agent running natively on Charm runtime.",
+  "tags": ["official", "hermes", "python", "daemon"],
+  "github_url": "https://github.com/CharmAIOS/charm-adapter-hermes/tree/main/template",
+  "verified": true
+}
