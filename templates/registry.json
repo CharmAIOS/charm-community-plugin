@@ -206,6 +206,45 @@
       "name": "Slack Workspace Bot",
       "version": "1.0.0",
       "license": "MIT"
+    },
+    {
+      "id": "hermes-agent",
+      "description": "Self-improving Hermes Agent with persistent memory (daemon)",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "version: \"0.4.2\"\n\npersona:\n  name: \"Hermes Agent\"\n  description: \"Self-improving AI agent with persistent memory\"\n  full_description: |\n    A Hermes Agent powered by Nous Research's open-source framework.\n    Features self-improving skills, cross-session memory with FTS5 search,\n    and multi-provider LLM support. Runs as a daemon for 24/7 availability.\n\ninterface:\n  input:\n    type: object\n    properties:\n      query:\n        type: string\n        description: \"The user's message or task for the agent.\"\n  output:\n    type: string\n\nruntime:\n  adapter:\n    type: \"hermes\"\n    entry_point: \"src.main:agent\"\n  lifecycle: \"daemon\"\n  mode: \"full\"\n  environment_variables:\n    models:\n      - OPENROUTER_API_KEY\n\npolicies:\n  execution_timeout_seconds: 600\n"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\n__pycache__\n*.pyc\n*.pyo\n.env\n.env.local\n.git\n.DS_Store\n.vscode\n.idea\n*.egg-info\nnode_modules\n"
+        },
+        {
+          "path": "src/__init__.py",
+          "content": ""
+        },
+        {
+          "path": "src/main.py",
+          "content": "\"\"\"Hermes Agent Entry Point for Charm.\"\"\"\nimport os\n\ntry:\n    from run_agent import AIAgent\n    agent = AIAgent(\n        model=os.getenv(\"CHARM_HERMES_MODEL\", \"openrouter/auto\"),\n        quiet_mode=True,\n        save_trajectories=False,\n    )\nexcept ImportError:\n    class DummyAgent:\n        def __init__(self, *args, **kwargs):\n            pass\n    agent = DummyAgent()\n"
+        },
+        {
+          "path": "requirements.txt",
+          "content": "charm-adapter-hermes>=0.1.0\n"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml           (lifecycle: daemon)\n  ├── .charmignore\n  ├── requirements.txt\n  └── src/main.py          ← customize model & tools here\n\n  Set OPENROUTER_API_KEY before running:\n    export OPENROUTER_API_KEY=\"sk-or-...\"\n    charm run --input '{\"query\": \"Hello!\"}'",
+      "author": "Charm Official",
+      "github_url": "https://github.com/CharmAIOS/charm-adapter-hermes",
+      "tags": [
+        "hermes",
+        "nous-research",
+        "daemon",
+        "self-improving",
+        "memory"
+      ],
+      "name": "Hermes Agent",
+      "version": "1.0.0",
+      "license": "MIT"
     }
   ]
 }
