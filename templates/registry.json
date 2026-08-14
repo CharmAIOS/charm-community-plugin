@@ -2,6 +2,31 @@
   "version": "1.0",
   "templates": [
     {
+      "id": "slack-bot",
+      "description": "Persistent Slack workspace bot",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Slack Bot Agent Template\n# A persistent daemon agent that lives inside a Slack workspace.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Slack Bot Agent\"\n  description: \"A persistent agent that operates inside Slack — responds to mentions, summarises threads, and runs scheduled tasks.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"slack\", \"team\", \"productivity\", \"automation\", \"daemon\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"message\"]\n    properties:\n      message:\n        type: \"string\"\n        title: \"Message\"\n        description: \"The Slack message or slash command sent to the bot.\"\nchannel:\n        type: \"string\"\n        title: \"Channel ID\"\n        description: \"Slack channel ID (e.g. C01234567)\"\n      user:\n        type: \"string\"\n        title: \"Slack User ID\"\n        description: \"ID of the user who sent the message.\"\n\n  ui:\n    message: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    system_prompt: |\n      You are a helpful Slack bot embedded in a team workspace.\n\n      You can:\n      - Answer questions about team projects and processes\n      - Summarise long Slack threads when asked\n      - Draft messages and documents for team members\n      - Look up information using your connected tools\n      - Run scheduled reminders and standup prompts\n\n      Keep responses concise — Slack messages should be brief.\n      Use bullet points for lists. Address the user by name when their ID is provided.\n      Avoid lengthy paragraphs; break information into digestible chunks.\n\n  mode: \"full\"\n  lifecycle: \"daemon\"\n\n  skills:\n    - name: \"slack\"\n      source: \"smithery:@mcp/slack\"\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20\n  execution_timeout_seconds: 60\n"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml  ← daemon lifecycle, Slack MCP skill pre-configured\n  └── .charmignore\n\nTip: this agent runs as a daemon — it persists across Slack events.\nAdd your Slack API credentials as secrets, then charm push",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "slack",
+        "bot",
+        "daemon"
+      ],
+      "name": "Slack Workspace Bot",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
       "id": "openclaw",
       "description": "MCP-powered OpenClaw agent",
       "files": [
@@ -31,135 +56,6 @@
         "persistent"
       ],
       "name": "OpenClaw MCP Agent",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "hermes-agent",
-      "name": "Hermes Official Starter",
-      "author": "Charm Official",
-      "description": "Official starter template for the Nous Research Hermes Agent running natively on Charm runtime.",
-      "tags": [
-        "official",
-        "hermes",
-        "python",
-        "daemon"
-      ],
-      "github_url": "https://github.com/CharmAIOS/charm-adapter-hermes/tree/main/template",
-      "verified": true
-    },
-    {
-      "id": "python",
-      "description": "Custom Python agent (code-based)",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Python Code-based Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My Python Agent\"\n  description: \"A Python-based agent using custom code.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Input\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        },
-        {
-          "path": "src/__init__.py",
-          "content": ""
-        },
-        {
-          "path": "src/main.py",
-          "content": "# Define your agent logic here.\n# The object must be named 'agent' to match charm.yaml entry_point.\n\ndef agent(inputs):\n    return f\"Hello from Charm! Input received: {inputs}\"\n"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── src/\n      ├── __init__.py\n      └── main.py",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "python",
-        "code",
-        "starter"
-      ],
-      "name": "Custom Python Agent",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "code-review-agent",
-      "description": "Code review for bugs, security, style",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Code Review Agent Template\n# Reviews code for bugs, security issues, and style improvements.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Code Review Agent\"\n  description: \"Reviews code for bugs, security vulnerabilities, performance issues, and style improvements.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"code-review\", \"developer-tools\", \"quality\", \"security\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"code\"]\n    properties:\n      code:\n        type: \"string\"\n        title: \"Code to Review\"\n        description: \"Paste the code snippet or file you'd like reviewed.\"\nlanguage:\n        type: \"string\"\n        title: \"Programming Language\"\n        description: \"Leave blank to auto-detect.\"\n        default: \"\"\n      focus:\n        type: \"string\"\n        title: \"Review Focus\"\n        enum: [\"general\", \"security\", \"performance\", \"style\"]\n        default: \"general\"\n\n  ui:\n    code: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: false\n  max_steps: 15\n  execution_timeout_seconds: 60\n"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        },
-        {
-          "path": "src/__init__.py",
-          "content": ""
-        },
-        {
-          "path": "src/main.py",
-          "content": "# Code Review Agent\n# Receives code + focus area, returns a structured review.\n\ndef agent(inputs):\n    code = inputs.get('code', '')\n    language = inputs.get('language', 'auto-detect') or 'auto-detect'\n    focus = inputs.get('focus', 'general')\n\n    # TODO: call your preferred LLM here\n    # Example (pseudo-code):\n    # prompt = build_review_prompt(code, language, focus)\n    # return llm.complete(prompt)\n\n    return f'[Code Review — {focus}]\\n\\nLanguage: {language}\\n\\n{code[:80]}...\\n\\n(Implement your review logic above)'\n"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── src/main.py  ← add your LLM call here",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "code-review",
-        "dev-tools"
-      ],
-      "name": "Code Review Agent",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "slack-bot",
-      "description": "Persistent Slack workspace bot",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Slack Bot Agent Template\n# A persistent daemon agent that lives inside a Slack workspace.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Slack Bot Agent\"\n  description: \"A persistent agent that operates inside Slack — responds to mentions, summarises threads, and runs scheduled tasks.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"slack\", \"team\", \"productivity\", \"automation\", \"daemon\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"message\"]\n    properties:\n      message:\n        type: \"string\"\n        title: \"Message\"\n        description: \"The Slack message or slash command sent to the bot.\"\nchannel:\n        type: \"string\"\n        title: \"Channel ID\"\n        description: \"Slack channel ID (e.g. C01234567)\"\n      user:\n        type: \"string\"\n        title: \"Slack User ID\"\n        description: \"ID of the user who sent the message.\"\n\n  ui:\n    message: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    system_prompt: |\n      You are a helpful Slack bot embedded in a team workspace.\n\n      You can:\n      - Answer questions about team projects and processes\n      - Summarise long Slack threads when asked\n      - Draft messages and documents for team members\n      - Look up information using your connected tools\n      - Run scheduled reminders and standup prompts\n\n      Keep responses concise — Slack messages should be brief.\n      Use bullet points for lists. Address the user by name when their ID is provided.\n      Avoid lengthy paragraphs; break information into digestible chunks.\n\n  mode: \"full\"\n  lifecycle: \"daemon\"\n\n  skills:\n    - name: \"slack\"\n      source: \"smithery:@mcp/slack\"\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20\n  execution_timeout_seconds: 60\n"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml  ← daemon lifecycle, Slack MCP skill pre-configured\n  └── .charmignore\n\nTip: this agent runs as a daemon — it persists across Slack events.\nAdd your Slack API credentials as secrets, then charm push",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "slack",
-        "bot",
-        "daemon"
-      ],
-      "name": "Slack Workspace Bot",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "research-agent",
-      "description": "Web research & report generation",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Research Agent Template\n# Searches the web, synthesises sources, and compiles structured reports.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Research Agent\"\n  description: \"Searches the web, synthesises findings, and compiles structured reports on any topic.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"research\", \"web-search\", \"summarisation\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"query\"]\n    properties:\n      query:\n        type: \"string\"\n        title: \"Research Query\"\n        description: \"What would you like me to research?\"\ndepth:\n        type: \"string\"\n        title: \"Research Depth\"\n        enum: [\"brief\", \"detailed\", \"comprehensive\"]\n        default: \"detailed\"\n\n  ui:\n    query: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.3\n    system_prompt: |\n      You are a thorough research assistant. Given a research query, you will:\n      1. Search the web for authoritative, up-to-date sources\n      2. Read and synthesise information from multiple sources\n      3. Identify key facts, statistics, and expert opinions\n      4. Present findings in a clear, structured report with citations\n\n      Always cite your sources. Distinguish between established facts and emerging views.\n\n      Depth guide:\n      - \"brief\"         → 2–3 paragraph summary\n      - \"detailed\"      → sections with headings and bullet points\n      - \"comprehensive\" → full report with introduction, body, and conclusion\n\n  mode: \"full\"\n  lifecycle: \"serverless\"\n\n  skills:\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n    - name: \"fetch\"\n      source: \"smithery:@mcp/fetch\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 30\n  execution_timeout_seconds: 180\n"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml  ← system_prompt & web-search skill pre-configured\n  └── .charmignore\n\nNext: edit charm.yaml to refine the system_prompt, then charm push",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "research",
-        "web-search",
-        "mcp"
-      ],
-      "name": "Web Research Agent",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -197,6 +93,100 @@
       "license": "MIT"
     },
     {
+      "id": "code-review-agent",
+      "description": "Code review for bugs, security, style",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Code Review Agent Template\n# Reviews code for bugs, security issues, and style improvements.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Code Review Agent\"\n  description: \"Reviews code for bugs, security vulnerabilities, performance issues, and style improvements.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"code-review\", \"developer-tools\", \"quality\", \"security\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"code\"]\n    properties:\n      code:\n        type: \"string\"\n        title: \"Code to Review\"\n        description: \"Paste the code snippet or file you'd like reviewed.\"\nlanguage:\n        type: \"string\"\n        title: \"Programming Language\"\n        description: \"Leave blank to auto-detect.\"\n        default: \"\"\n      focus:\n        type: \"string\"\n        title: \"Review Focus\"\n        enum: [\"general\", \"security\", \"performance\", \"style\"]\n        default: \"general\"\n\n  ui:\n    code: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: false\n  max_steps: 15\n  execution_timeout_seconds: 60\n"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        },
+        {
+          "path": "src/__init__.py",
+          "content": ""
+        },
+        {
+          "path": "src/main.py",
+          "content": "# Code Review Agent\n# Receives code + focus area, returns a structured review.\n\ndef agent(inputs):\n    code = inputs.get('code', '')\n    language = inputs.get('language', 'auto-detect') or 'auto-detect'\n    focus = inputs.get('focus', 'general')\n\n    # TODO: call your preferred LLM here\n    # Example (pseudo-code):\n    # prompt = build_review_prompt(code, language, focus)\n    # return llm.complete(prompt)\n\n    return f'[Code Review — {focus}]\\n\\nLanguage: {language}\\n\\n{code[:80]}...\\n\\n(Implement your review logic above)'\n"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── src/main.py  ← add your LLM call here",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "code-review",
+        "dev-tools"
+      ],
+      "name": "Code Review Agent",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "id": "research-agent",
+      "description": "Web research & report generation",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Research Agent Template\n# Searches the web, synthesises sources, and compiles structured reports.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Research Agent\"\n  description: \"Searches the web, synthesises findings, and compiles structured reports on any topic.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"research\", \"web-search\", \"summarisation\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"query\"]\n    properties:\n      query:\n        type: \"string\"\n        title: \"Research Query\"\n        description: \"What would you like me to research?\"\ndepth:\n        type: \"string\"\n        title: \"Research Depth\"\n        enum: [\"brief\", \"detailed\", \"comprehensive\"]\n        default: \"detailed\"\n\n  ui:\n    query: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.3\n    system_prompt: |\n      You are a thorough research assistant. Given a research query, you will:\n      1. Search the web for authoritative, up-to-date sources\n      2. Read and synthesise information from multiple sources\n      3. Identify key facts, statistics, and expert opinions\n      4. Present findings in a clear, structured report with citations\n\n      Always cite your sources. Distinguish between established facts and emerging views.\n\n      Depth guide:\n      - \"brief\"         → 2–3 paragraph summary\n      - \"detailed\"      → sections with headings and bullet points\n      - \"comprehensive\" → full report with introduction, body, and conclusion\n\n  mode: \"full\"\n  lifecycle: \"serverless\"\n\n  skills:\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n    - name: \"fetch\"\n      source: \"smithery:@mcp/fetch\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 30\n  execution_timeout_seconds: 180\n"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml  ← system_prompt & web-search skill pre-configured\n  └── .charmignore\n\nNext: edit charm.yaml to refine the system_prompt, then charm push",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "research",
+        "web-search",
+        "mcp"
+      ],
+      "name": "Web Research Agent",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "id": "hermes-agent",
+      "name": "Hermes Official Starter",
+      "author": "Charm Official",
+      "description": "Official starter template for the Nous Research Hermes Agent running natively on Charm runtime.",
+      "tags": [
+        "official",
+        "hermes",
+        "python",
+        "daemon"
+      ],
+      "github_url": "https://github.com/CharmAIOS/charm-adapter-hermes/tree/main/template",
+      "verified": true,
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "version: \"0.4.2\"\n\npersona:\n  name: \"Hermes Agent\"\n  description: \"Self-improving AI agent with persistent memory\"\n\ninterface:\n  input:\n    type: object\n    properties:\n      query:\n        type: string\n  output:\n    type: string\n\nruntime:\n  adapter:\n    type: \"hermes\"\n    entry_point: \"src.main:agent\"\n  lifecycle: \"daemon\"\n  mode: \"full\"\n  environment_variables:\n    models:\n      - OPENROUTER_API_KEY\n"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".env\n__pycache__/\n*.pyc\n.venv\n"
+        },
+        {
+          "path": "requirements.txt",
+          "content": "charm-adapter-hermes>=0.1.0\n"
+        },
+        {
+          "path": "src/__init__.py",
+          "content": ""
+        },
+        {
+          "path": "src/main.py",
+          "content": "\"\"\"\nHermes Agent Entry Point for Charm.\n\nThis module creates and exports a Hermes AIAgent instance configured for\nheadless execution inside the Charm Cloud Runner.\n\"\"\"\n\nimport os\n\ndef create_agent(**kwargs):\n    try:\n        from run_agent import AIAgent\n        kwargs.setdefault(\"model\", os.getenv(\"CHARM_HERMES_MODEL\", \"openrouter/auto\"))\n        kwargs.setdefault(\"quiet_mode\", True)\n        kwargs.setdefault(\"save_trajectories\", False)\n        return AIAgent(**kwargs)\n    except ImportError:\n        class DummyAgent:\n            def __init__(self, *args, **kw):\n                pass\n            def run_conversation(self, **kw):\n                return {\"response\": \"dummy output\"}\n        return DummyAgent()\n\nagent = create_agent\n"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  ├── requirements.txt\n  └── src/\n      ├── __init__.py\n      └── main.py\n\nConfigure your model by setting CHARM_HERMES_MODEL and OPENROUTER_API_KEY."
+    },
+    {
       "id": "customer-support-agent",
       "description": "Always-on customer support daemon",
       "files": [
@@ -218,6 +208,39 @@
         "mcp"
       ],
       "name": "Customer Support Daemon",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "id": "python",
+      "description": "Custom Python agent (code-based)",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Python Code-based Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My Python Agent\"\n  description: \"A Python-based agent using custom code.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Input\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        },
+        {
+          "path": "src/__init__.py",
+          "content": ""
+        },
+        {
+          "path": "src/main.py",
+          "content": "# Define your agent logic here.\n# The object must be named 'agent' to match charm.yaml entry_point.\n\ndef agent(inputs):\n    return f\"Hello from Charm! Input received: {inputs}\"\n"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── src/\n      ├── __init__.py\n      └── main.py",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "python",
+        "code",
+        "starter"
+      ],
+      "name": "Custom Python Agent",
       "version": "1.0.0",
       "license": "MIT"
     }

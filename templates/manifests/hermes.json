@@ -5,5 +5,28 @@
   "description": "Official starter template for the Nous Research Hermes Agent running natively on Charm runtime.",
   "tags": ["official", "hermes", "python", "daemon"],
   "github_url": "https://github.com/CharmAIOS/charm-adapter-hermes/tree/main/template",
-  "verified": true
+  "verified": true,
+  "files": [
+    {
+      "path": "charm.yaml",
+      "content": "version: \"0.4.2\"\n\npersona:\n  name: \"Hermes Agent\"\n  description: \"Self-improving AI agent with persistent memory\"\n\ninterface:\n  input:\n    type: object\n    properties:\n      query:\n        type: string\n  output:\n    type: string\n\nruntime:\n  adapter:\n    type: \"hermes\"\n    entry_point: \"src.main:agent\"\n  lifecycle: \"daemon\"\n  mode: \"full\"\n  environment_variables:\n    models:\n      - OPENROUTER_API_KEY\n"
+    },
+    {
+      "path": ".charmignore",
+      "content": ".env\n__pycache__/\n*.pyc\n.venv\n"
+    },
+    {
+      "path": "requirements.txt",
+      "content": "charm-adapter-hermes>=0.1.0\n"
+    },
+    {
+      "path": "src/__init__.py",
+      "content": ""
+    },
+    {
+      "path": "src/main.py",
+      "content": "\"\"\"\nHermes Agent Entry Point for Charm.\n\nThis module creates and exports a Hermes AIAgent instance configured for\nheadless execution inside the Charm Cloud Runner.\n\"\"\"\n\nimport os\n\ndef create_agent(**kwargs):\n    try:\n        from run_agent import AIAgent\n        kwargs.setdefault(\"model\", os.getenv(\"CHARM_HERMES_MODEL\", \"openrouter/auto\"))\n        kwargs.setdefault(\"quiet_mode\", True)\n        kwargs.setdefault(\"save_trajectories\", False)\n        return AIAgent(**kwargs)\n    except ImportError:\n        class DummyAgent:\n            def __init__(self, *args, **kw):\n                pass\n            def run_conversation(self, **kw):\n                return {\"response\": \"dummy output\"}\n        return DummyAgent()\n\nagent = create_agent\n"
+    }
+  ],
+  "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  ├── requirements.txt\n  └── src/\n      ├── __init__.py\n      └── main.py\n\nConfigure your model by setting CHARM_HERMES_MODEL and OPENROUTER_API_KEY."
 }
