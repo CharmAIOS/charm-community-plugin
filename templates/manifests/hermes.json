@@ -9,7 +9,7 @@
   "files": [
     {
       "path": "charm.yaml",
-      "content": "version: \"0.4.2\"\n\npersona:\n  name: \"Hermes Agent\"\n  description: \"Self-improving AI agent with persistent memory\"\n\ninterface:\n  input:\n    type: object\n    properties:\n      query:\n        type: string\n  output:\n    type: string\n\nruntime:\n  adapter:\n    type: \"hermes\"\n    entry_point: \"src.main:agent\"\n  lifecycle: \"daemon\"\n  mode: \"full\"\n  environment_variables:\n    models:\n      - OPENROUTER_API_KEY\n"
+      "content": "version: \"0.4.2\"\n\npersona:\n  name: \"Hermes Agent\"\n  description: \"Self-improving AI agent with persistent memory\"\n\ninterface:\n  input:\n    type: object\n    properties:\n      query:\n        type: string\n  output:\n    type: string\n\nruntime:\n  adapter:\n    type: \"hermes\"\n    entry_point: \"src.main:agent\"\n  lifecycle: \"daemon\"\n  mode: \"full\"\n  capabilities:\n    manages_own_history: true\n  environment_variables:\n    models:\n      - OPENROUTER_API_KEY\n"
     },
     {
       "path": ".charmignore",
