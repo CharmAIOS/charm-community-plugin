@@ -2,6 +2,64 @@
   "version": "1.0",
   "templates": [
     {
+      "id": "research-agent",
+      "description": "Web research & report generation",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Research Agent Template\n# Searches the web, synthesises sources, and compiles structured reports.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Research Agent\"\n  description: \"Searches the web, synthesises findings, and compiles structured reports on any topic.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"research\", \"web-search\", \"summarisation\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"query\"]\n    properties:\n      query:\n        type: \"string\"\n        title: \"Research Query\"\n        description: \"What would you like me to research?\"\ndepth:\n        type: \"string\"\n        title: \"Research Depth\"\n        enum: [\"brief\", \"detailed\", \"comprehensive\"]\n        default: \"detailed\"\n\n  ui:\n    query: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.3\n    system_prompt: |\n      You are a thorough research assistant. Given a research query, you will:\n      1. Search the web for authoritative, up-to-date sources\n      2. Read and synthesise information from multiple sources\n      3. Identify key facts, statistics, and expert opinions\n      4. Present findings in a clear, structured report with citations\n\n      Always cite your sources. Distinguish between established facts and emerging views.\n\n      Depth guide:\n      - \"brief\"         → 2–3 paragraph summary\n      - \"detailed\"      → sections with headings and bullet points\n      - \"comprehensive\" → full report with introduction, body, and conclusion\n\n  mode: \"full\"\n  lifecycle: \"serverless\"\n\n  skills:\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n    - name: \"fetch\"\n      source: \"smithery:@mcp/fetch\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 30\n  execution_timeout_seconds: 180\n"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml  ← system_prompt & web-search skill pre-configured\n  └── .charmignore\n\nNext: edit charm.yaml to refine the system_prompt, then charm push",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "research",
+        "web-search",
+        "mcp"
+      ],
+      "name": "Web Research Agent",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "id": "python",
+      "description": "Custom Python agent (code-based)",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Python Code-based Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My Python Agent\"\n  description: \"A Python-based agent using custom code.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Input\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        },
+        {
+          "path": "src/__init__.py",
+          "content": ""
+        },
+        {
+          "path": "src/main.py",
+          "content": "# Define your agent logic here.\n# The object must be named 'agent' to match charm.yaml entry_point.\n\ndef agent(inputs):\n    return f\"Hello from Charm! Input received: {inputs}\"\n"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── src/\n      ├── __init__.py\n      └── main.py",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "python",
+        "code",
+        "starter"
+      ],
+      "name": "Custom Python Agent",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
       "id": "openclaw",
       "description": "MCP-powered OpenClaw agent",
       "files": [
@@ -31,6 +89,31 @@
         "persistent"
       ],
       "name": "OpenClaw MCP Agent",
+      "version": "1.0.0",
+      "license": "MIT"
+    },
+    {
+      "id": "slack-bot",
+      "description": "Persistent Slack workspace bot",
+      "files": [
+        {
+          "path": "charm.yaml",
+          "content": "# Slack Bot Agent Template\n# A persistent daemon agent that lives inside a Slack workspace.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Slack Bot Agent\"\n  description: \"A persistent agent that operates inside Slack — responds to mentions, summarises threads, and runs scheduled tasks.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"slack\", \"team\", \"productivity\", \"automation\", \"daemon\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"message\"]\n    properties:\n      message:\n        type: \"string\"\n        title: \"Message\"\n        description: \"The Slack message or slash command sent to the bot.\"\nchannel:\n        type: \"string\"\n        title: \"Channel ID\"\n        description: \"Slack channel ID (e.g. C01234567)\"\n      user:\n        type: \"string\"\n        title: \"Slack User ID\"\n        description: \"ID of the user who sent the message.\"\n\n  ui:\n    message: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    system_prompt: |\n      You are a helpful Slack bot embedded in a team workspace.\n\n      You can:\n      - Answer questions about team projects and processes\n      - Summarise long Slack threads when asked\n      - Draft messages and documents for team members\n      - Look up information using your connected tools\n      - Run scheduled reminders and standup prompts\n\n      Keep responses concise — Slack messages should be brief.\n      Use bullet points for lists. Address the user by name when their ID is provided.\n      Avoid lengthy paragraphs; break information into digestible chunks.\n\n  mode: \"full\"\n  lifecycle: \"daemon\"\n\n  skills:\n    - name: \"slack\"\n      source: \"smithery:@mcp/slack\"\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20\n  execution_timeout_seconds: 60\n"
+        },
+        {
+          "path": ".charmignore",
+          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
+        }
+      ],
+      "post_init_message": "  ├── charm.yaml  ← daemon lifecycle, Slack MCP skill pre-configured\n  └── .charmignore\n\nTip: this agent runs as a daemon — it persists across Slack events.\nAdd your Slack API credentials as secrets, then charm push",
+      "author": "Charm Team",
+      "github_url": "https://github.com/CharmAIOS/Charm",
+      "tags": [
+        "slack",
+        "bot",
+        "daemon"
+      ],
+      "name": "Slack Workspace Bot",
       "version": "1.0.0",
       "license": "MIT"
     },
@@ -72,39 +155,6 @@
       "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  ├── requirements.txt\n  └── src/\n      ├── __init__.py\n      └── main.py\n\nConfigure your model by setting CHARM_HERMES_MODEL and OPENROUTER_API_KEY."
     },
     {
-      "id": "python",
-      "description": "Custom Python agent (code-based)",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Python Code-based Agent Template\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"My Python Agent\"\n  description: \"A Python-based agent using custom code.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"assistant\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"input\"]\n    properties:\n      input:\n        type: \"string\"\n        title: \"Input\"\noutput:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"custom\"\n    entry_point: \"src.main:agent\"\n\n  mode: \"standard\"\n  lifecycle: \"serverless\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        },
-        {
-          "path": "src/__init__.py",
-          "content": ""
-        },
-        {
-          "path": "src/main.py",
-          "content": "# Define your agent logic here.\n# The object must be named 'agent' to match charm.yaml entry_point.\n\ndef agent(inputs):\n    return f\"Hello from Charm! Input received: {inputs}\"\n"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml\n  ├── .charmignore\n  └── src/\n      ├── __init__.py\n      └── main.py",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "python",
-        "code",
-        "starter"
-      ],
-      "name": "Custom Python Agent",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
       "id": "code-review-agent",
       "description": "Code review for bugs, security, style",
       "files": [
@@ -133,56 +183,6 @@
         "dev-tools"
       ],
       "name": "Code Review Agent",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "slack-bot",
-      "description": "Persistent Slack workspace bot",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Slack Bot Agent Template\n# A persistent daemon agent that lives inside a Slack workspace.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Slack Bot Agent\"\n  description: \"A persistent agent that operates inside Slack — responds to mentions, summarises threads, and runs scheduled tasks.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"slack\", \"team\", \"productivity\", \"automation\", \"daemon\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"message\"]\n    properties:\n      message:\n        type: \"string\"\n        title: \"Message\"\n        description: \"The Slack message or slash command sent to the bot.\"\nchannel:\n        type: \"string\"\n        title: \"Channel ID\"\n        description: \"Slack channel ID (e.g. C01234567)\"\n      user:\n        type: \"string\"\n        title: \"Slack User ID\"\n        description: \"ID of the user who sent the message.\"\n\n  ui:\n    message: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.5\n    system_prompt: |\n      You are a helpful Slack bot embedded in a team workspace.\n\n      You can:\n      - Answer questions about team projects and processes\n      - Summarise long Slack threads when asked\n      - Draft messages and documents for team members\n      - Look up information using your connected tools\n      - Run scheduled reminders and standup prompts\n\n      Keep responses concise — Slack messages should be brief.\n      Use bullet points for lists. Address the user by name when their ID is provided.\n      Avoid lengthy paragraphs; break information into digestible chunks.\n\n  mode: \"full\"\n  lifecycle: \"daemon\"\n\n  skills:\n    - name: \"slack\"\n      source: \"smithery:@mcp/slack\"\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 20\n  execution_timeout_seconds: 60\n"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml  ← daemon lifecycle, Slack MCP skill pre-configured\n  └── .charmignore\n\nTip: this agent runs as a daemon — it persists across Slack events.\nAdd your Slack API credentials as secrets, then charm push",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "slack",
-        "bot",
-        "daemon"
-      ],
-      "name": "Slack Workspace Bot",
-      "version": "1.0.0",
-      "license": "MIT"
-    },
-    {
-      "id": "research-agent",
-      "description": "Web research & report generation",
-      "files": [
-        {
-          "path": "charm.yaml",
-          "content": "# Research Agent Template\n# Searches the web, synthesises sources, and compiles structured reports.\n\nversion: \"0.4.2\"\n\npersona:\n  name: \"Research Agent\"\n  description: \"Searches the web, synthesises findings, and compiles structured reports on any topic.\"\n  version: \"0.1.0\"\n  authors: [\"You\"]\n  tags: [\"research\", \"web-search\", \"summarisation\"]\n\npricing:\n  model: \"free\"  # Options: free, subscription, one_time.\n  amount: 0      # Price in USD. Ignored when model is 'free'.\n  # billing_period: \"monthly\" # Options: monthly, annual (for subscription)\n  # trial:\n  #   enabled: true\n  #   days: 7\n\ninterface:\n  input:\n    type: \"object\"\n    required: [\"query\"]\n    properties:\n      query:\n        type: \"string\"\n        title: \"Research Query\"\n        description: \"What would you like me to research?\"\ndepth:\n        type: \"string\"\n        title: \"Research Depth\"\n        enum: [\"brief\", \"detailed\", \"comprehensive\"]\n        default: \"detailed\"\n\n  ui:\n    query: { \"ui:widget\": \"textarea\" }\n\n  output:\n    type: \"string\"\n\nruntime:\n  adapter:\n    type: \"openclaw\"\n    entry_point: \"\"\n\n  config:\n    model: \"gpt-4o\"\n    temperature: 0.3\n    system_prompt: |\n      You are a thorough research assistant. Given a research query, you will:\n      1. Search the web for authoritative, up-to-date sources\n      2. Read and synthesise information from multiple sources\n      3. Identify key facts, statistics, and expert opinions\n      4. Present findings in a clear, structured report with citations\n\n      Always cite your sources. Distinguish between established facts and emerging views.\n\n      Depth guide:\n      - \"brief\"         → 2–3 paragraph summary\n      - \"detailed\"      → sections with headings and bullet points\n      - \"comprehensive\" → full report with introduction, body, and conclusion\n\n  mode: \"full\"\n  lifecycle: \"serverless\"\n\n  skills:\n    - name: \"web-search\"\n      source: \"smithery:@mcp/web-search\"\n    - name: \"fetch\"\n      source: \"smithery:@mcp/fetch\"\n\npolicies:\n  allow_internet_access: true\n  max_steps: 30\n  execution_timeout_seconds: 180\n"
-        },
-        {
-          "path": ".charmignore",
-          "content": ".venv\nvenv\nenv\nvirtualenv\n\n__pycache__\n*.pyc\n*.pyo\n*.pyd\n\n.env\n.env.local\n.env.*\nsecrets.json\ncredentials.json\n\n.git\n.gitignore\n.DS_Store\n\n.vscode\n.idea\n\n.pytest_cache\n.mypy_cache\nbuild\ndist\n*.egg-info\n\n*.pt\n*.h5\n*.safetensors\nnode_modules"
-        }
-      ],
-      "post_init_message": "  ├── charm.yaml  ← system_prompt & web-search skill pre-configured\n  └── .charmignore\n\nNext: edit charm.yaml to refine the system_prompt, then charm push",
-      "author": "Charm Team",
-      "github_url": "https://github.com/CharmAIOS/Charm",
-      "tags": [
-        "research",
-        "web-search",
-        "mcp"
-      ],
-      "name": "Web Research Agent",
       "version": "1.0.0",
       "license": "MIT"
     },
